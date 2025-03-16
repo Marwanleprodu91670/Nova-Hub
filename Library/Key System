@@ -1,0 +1,142 @@
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TitleBar = Instance.new("TextLabel")
+local KeyTextbox = Instance.new("TextBox")
+local ConfirmButton = Instance.new("TextButton")
+local MessageLabel = Instance.new("TextLabel")
+local DiscordButton = Instance.new("ImageButton")
+local Gradient = Instance.new("UIGradient")
+
+ScreenGui.Name = "NovaHubKeySystem"
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Frame.Name = "MainFrame"
+Frame.Parent = ScreenGui
+Frame.Size = UDim2.new(0, 400, 0, 350)
+Frame.Position = UDim2.new(0.5, -200, 0.5, -175)
+Frame.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
+Frame.BorderSizePixel = 0
+Frame.ClipsDescendants = true
+
+-- Adding Gradient to the Frame for a smooth, modern feel
+Gradient.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(50, 50, 75)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(30, 30, 45))
+}
+Gradient.Parent = Frame
+
+-- Adding a smooth gradient animation
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Parent = Frame
+UIStroke.Thickness = 2
+UIStroke.Color = Color3.fromRGB(100, 0, 100)
+UIStroke.Transparency = 0.5
+
+TitleBar.Name = "TitleBar"
+TitleBar.Parent = Frame
+TitleBar.Size = UDim2.new(1, 0, 0, 30)
+TitleBar.BackgroundColor3 = Color3.fromRGB(80, 0, 80)
+TitleBar.Text = "Nova Hub Key System"
+TitleBar.TextColor3 = Color3.fromRGB(255, 255, 255)
+TitleBar.TextSize = 20
+TitleBar.TextAlign = Enum.TextXAlignment.Center
+TitleBar.TextYAlignment = Enum.TextYAlignment.Center
+
+KeyTextbox.Name = "KeyTextbox"
+KeyTextbox.Parent = Frame
+KeyTextbox.Size = UDim2.new(0, 350, 0, 40)
+KeyTextbox.Position = UDim2.new(0.5, -175, 0, 50)
+KeyTextbox.BackgroundColor3 = Color3.fromRGB(60, 60, 80)
+KeyTextbox.TextColor3 = Color3.fromRGB(255, 255, 255)
+KeyTextbox.PlaceholderText = "Enter Key"
+KeyTextbox.TextSize = 14
+KeyTextbox.ClearTextOnFocus = false
+KeyTextbox.BorderSizePixel = 0
+
+ConfirmButton.Name = "ConfirmButton"
+ConfirmButton.Parent = Frame
+ConfirmButton.Size = UDim2.new(0, 150, 0, 40)
+ConfirmButton.Position = UDim2.new(0.5, -75, 0, 120)
+ConfirmButton.BackgroundColor3 = Color3.fromRGB(100, 0, 100)
+ConfirmButton.Text = "Confirm Key"
+ConfirmButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ConfirmButton.TextSize = 14
+ConfirmButton.BorderSizePixel = 0
+
+MessageLabel.Name = "MessageLabel"
+MessageLabel.Parent = Frame
+MessageLabel.Size = UDim2.new(0, 350, 0, 30)
+MessageLabel.Position = UDim2.new(0.5, -175, 0, 180)
+MessageLabel.BackgroundTransparency = 1
+MessageLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+MessageLabel.TextSize = 14
+MessageLabel.TextAlign = Enum.TextXAlignment.Center
+MessageLabel.TextYAlignment = Enum.TextYAlignment.Center
+
+DiscordButton.Name = "DiscordButton"
+DiscordButton.Parent = Frame
+DiscordButton.Size = UDim2.new(0, 40, 0, 40)  -- Set the size of the Discord button
+DiscordButton.Position = UDim2.new(1, -50, 1, -40)  -- Positioning at the bottom-right
+DiscordButton.BackgroundTransparency = 1
+DiscordButton.Image = "rbxassetid://6044530761"  -- Discord logo image ID
+DiscordButton.ImageColor3 = Color3.fromRGB(255, 255, 255)  -- Optional: adjust color if needed
+
+DiscordButton.MouseButton1Click:Connect(function()
+    setclipboard("https://discord.gg/HrjfabHM")
+    DiscordButton.ImageTransparency = 0.5  -- Change transparency to indicate button click
+    wait(1)
+    DiscordButton.ImageTransparency = 0  -- Reset transparency after 1 second
+end)
+
+local correctKey = "NovaHubKey000011123"
+
+ConfirmButton.MouseButton1Click:Connect(function()
+    local enteredKey = KeyTextbox.Text
+    if enteredKey == correctKey then
+        -- Smooth transition and animation
+        MessageLabel.Text = "Correct Key... loading"
+        MessageLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+        MessageLabel:TweenPosition(UDim2.new(0.5, -175, 0, 160), "Out", "Quad", 0.5, true)
+        
+        -- Add a small delay to show the message before printing "Script Loaded"
+        wait(1)
+        
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Marwanleprodu91670/Nova-Hub/refs/heads/main/Nova%20Hub/GameList"))()
+        MessageLabel.Text = "Loading..."
+        MessageLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+        MessageLabel:TweenPosition(UDim2.new(0.5, -175, 0, 160), "Out", "Quad", 0.5, true)
+
+        -- Optional: Show a success message for 2 seconds
+        wait(2)
+        MessageLabel.Text = "Success! Welcome to NovaHub"
+        MessageLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+        MessageLabel:TweenPosition(UDim2.new(0.5, -175, 0, 180), "Out", "Quad", 0.5, true)
+    else
+        -- Incorrect key animation and feedback
+        MessageLabel.Text = "Incorrect Key"
+        MessageLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+        MessageLabel:TweenPosition(UDim2.new(0.5, -175, 0, 160), "Out", "Quad", 0.5, true)
+        wait(1)
+        MessageLabel:TweenPosition(UDim2.new(0.5, -175, 0, 180), "Out", "Quad", 0.5, true)
+    end
+end)
+
+MessageLabel.Text = ""
+
+-- Button Hover Effect
+ConfirmButton.MouseEnter:Connect(function()
+    ConfirmButton.BackgroundColor3 = Color3.fromRGB(120, 0, 120)
+end)
+
+ConfirmButton.MouseLeave:Connect(function()
+    ConfirmButton.BackgroundColor3 = Color3.fromRGB(100, 0, 100)
+end)
+
+DiscordButton.MouseEnter:Connect(function()
+    DiscordButton.ImageColor3 = Color3.fromRGB(200, 200, 200)  -- Lighten the image on hover
+end)
+
+DiscordButton.MouseLeave:Connect(function()
+    DiscordButton.ImageColor3 = Color3.fromRGB(255, 255, 255)  -- Reset image color on mouse leave
+end)
